@@ -1,0 +1,17 @@
+version: '2'
+services:
+  storage-is-fun:
+    container_name: storage-is-fun
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ".:/go/src/github.com/morimolymoly/storage-is-fun"
+    environment:
+      - DATASTORE_EMULATOR_HOST=gcp-datastore-emulator:8432
+      - DATASTORE_PROJECT_ID=my-project-id
+    command: go run /go/src/github.com/morimolymoly/storage-is-fun/src/storage-is-fun/main.go
+networks:
+    default:
+        external:
+            name: gcp-network
