@@ -32,7 +32,6 @@ func main() {
 
 	if _, err := dsClient.Put(ctx, nameKey, yourname); err != nil {
 		log.Fatal("Can't update your name!")
-		return
 	}
 
 	fmt.Printf("Updated value from %q to %q\n", oldName, yourname.Value)
