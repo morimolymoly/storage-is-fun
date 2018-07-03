@@ -1,7 +1,7 @@
 # Google Cloud Platform Storage Tutorial
 ## Requirements
 Before start up this project, you need to launch local GCP emulators.  
-Check out [this one](https://github.com/morimolymoly/gcp-emulators)
+Check [this one](https://github.com/morimolymoly/gcp-emulators) out!
 ## Usage
 ```
 dep ensure
