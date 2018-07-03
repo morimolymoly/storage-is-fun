@@ -8,6 +8,7 @@ import (
 	"cloud.google.com/go/datastore"
 )
 
+// YourName ... なまえだよ
 type YourName struct {
 	Value string
 }
