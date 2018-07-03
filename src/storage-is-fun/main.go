@@ -18,7 +18,6 @@ func main() {
 	dsClient, err := datastore.NewClient(ctx, "my-project")
 	if err != nil {
 		log.Fatalf("Can't create client: %s", err)
-		return
 	}
 
 	nameKey := datastore.NameKey("YourName", "stringID", nil)
