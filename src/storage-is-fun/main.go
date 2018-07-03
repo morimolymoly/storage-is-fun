@@ -3,36 +3,38 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"cloud.google.com/go/datastore"
 )
 
-type Entity struct {
+type YourName struct {
 	Value string
 }
 
 func main() {
 	ctx := context.Background()
 
-	// Create a datastore client. In a typical application, you would create
-	// a single client which is reused for every datastore operation.
 	dsClient, err := datastore.NewClient(ctx, "my-project")
 	if err != nil {
-		// Handle error.
+		log.Fatalf("Can't create client: %s", err)
+		return
 	}
 
-	k := datastore.NameKey("Entity", "stringID", nil)
-	e := new(Entity)
-	if err := dsClient.Get(ctx, k, e); err != nil {
-		// Handle error.
+	nameKey := datastore.NameKey("YourName", "stringID", nil)
+	yourname := new(YourName)
+
+	if err := dsClient.Get(ctx, nameKey, yourname); err != nil {
+		log.Printf("Can't get your name: %s", err)
 	}
 
-	old := e.Value
-	e.Value = "Hello World!"
+	oldName := yourname.Value
+	yourname.Value = "MINO MONTA"
 
-	if _, err := dsClient.Put(ctx, k, e); err != nil {
-		// Handle error.
+	if _, err := dsClient.Put(ctx, nameKey, yourname); err != nil {
+		log.Fatal("Can't update your name!")
+		return
 	}
 
-	fmt.Printf("Updated value from %q to %q\n", old, e.Value)
+	fmt.Printf("Updated value from %q to %q\n", oldName, yourname.Value)
 }
