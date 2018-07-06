@@ -20,24 +20,30 @@ const (
 func main() {
 	ctx := context.Background()
 
+	log.Printf("Creating Client...")
 	dsClient, err := datastore.NewClient(ctx, projectID)
 	if err != nil {
 		log.Fatalf("Can't create client: %s", err)
 	}
+	log.Printf("Created!\n")
 
 	nameKey := datastore.NameKey(nameKeyID, "stringID", nil)
 	yourname := new(YourName)
-
-	if err := dsClient.Get(ctx, nameKey, yourname); err != nil {
-		log.Printf("Can't get your name: %s", err)
-	}
-
-	oldName := yourname.Value
 	yourname.Value = "MINO MONTA"
-
+	log.Printf("Putting your name...")
 	if _, err := dsClient.Put(ctx, nameKey, yourname); err != nil {
-		log.Fatal("Can't update your name!")
+		log.Fatal("Can't push your name!")
 	}
+	log.Printf("Done!\n")
 
-	log.Printf("Updated value from %q to %q\n", oldName, yourname.Value)
+	log.Printf("Getting your name...")
+	yourname = new(YourName)
+	if err := dsClient.Get(ctx, nameKey, yourname); err != nil {
+		log.Fatal("Can't get your name")
+	}
+	log.Printf("Done!\nHello，%s!", yourname.Value)
+
+	if err := dsClient.Delete(ctx, nameKey); err != nil {
+		log.Fatalf("ERROR: %v", err)
+	}
 }
