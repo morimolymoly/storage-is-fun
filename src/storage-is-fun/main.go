@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"cloud.google.com/go/datastore"
@@ -13,15 +12,20 @@ type YourName struct {
 	Value string
 }
 
+const (
+	projectID string = "my-project"
+	nameKeyID string = "YourName"
+)
+
 func main() {
 	ctx := context.Background()
 
-	dsClient, err := datastore.NewClient(ctx, "my-project")
+	dsClient, err := datastore.NewClient(ctx, projectID)
 	if err != nil {
 		log.Fatalf("Can't create client: %s", err)
 	}
 
-	nameKey := datastore.NameKey("YourName", "stringID", nil)
+	nameKey := datastore.NameKey(nameKeyID, "stringID", nil)
 	yourname := new(YourName)
 
 	if err := dsClient.Get(ctx, nameKey, yourname); err != nil {
@@ -35,5 +39,5 @@ func main() {
 		log.Fatal("Can't update your name!")
 	}
 
-	fmt.Printf("Updated value from %q to %q\n", oldName, yourname.Value)
+	log.Printf("Updated value from %q to %q\n", oldName, yourname.Value)
 }
